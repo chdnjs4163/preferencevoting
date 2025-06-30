@@ -1,7 +1,9 @@
 package kr.ac.kopo.preferencevoting;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -26,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        final  int voteCount[] = new int[9];
+        final int voteCount[] = new int[9];
         for (int i = 0; i < voteCount.length; i++) {
             voteCount[i] = 0;
         }
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         ImageView imgv[] = new ImageView[9];
         int imgvId[] = {R.id.imv0, R.id.imv1, R.id.imv2, R.id.imv3, R.id.imv4, R.id.imv5, R.id.imv6, R.id.imv7, R.id.imv8};
         final String imgName[] = {"독서하는 소녀", "부채 소녀", "꽃장식 모자 소녀", "책읽는 소녀",
-                                "테라스의 두 자매", "피아노 소녀", "해변에서", " 공감", "바느질하는 소녀"};
+                "테라스의 두 자매", "피아노 소녀", "해변에서", " 공감", "바느질하는 소녀"};
 
         for (int i = 0; i < imgv.length; i++) {
             final int index;
@@ -45,9 +47,20 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     voteCount[index]++;
-                    Toast.makeText(getApplicationContext(), imgName[index]+": 총 "+voteCount[index]+"표", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), imgName[index] + ": 총 " + voteCount[index] + "표", Toast.LENGTH_SHORT).show();
                 }
             });
         }
+
+        Button btnDone = findViewById(R.id.btn_done);
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                intent.putExtra("voteCount", voteCount);
+                intent.putExtra("imgName", imgName);
+                startActivity(intent);
+            }
+        });
     }
 }
